@@ -1,94 +1,87 @@
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-// ADD TASK
 function addTask() {
-    const text = document.getElementById("taskInput").value;
-    const date = document.getElementById("taskDate").value;
-    const priority = document.getElementById("priority").value;
+  const text = document.getElementById("taskInput").value;
+  const date = document.getElementById("taskDate").value;
+  const priority = document.getElementById("priority").value;
 
-    if (!text) return;
+  if (!text) return;
 
-    tasks.push({
-        id: Date.now(),
-        text,
-        date,
-        priority,
-        status: "todo"
-    });
+  tasks.push({
+    id: Date.now(),
+    text,
+    date,
+    priority,
+    status: "todo"
+  });
 
-    saveTasks();
-    renderTasks();
+  saveTasks();
+  renderTasks();
+  document.getElementById("taskInput").value = '';
 }
 
-// SAVE
 function saveTasks() {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-// DELETE
 function deleteTask(id) {
-    tasks = tasks.filter(t => t.id !== id);
-    saveTasks();
-    renderTasks();
+  tasks = tasks.filter(t => t.id !== id);
+  saveTasks();
+  renderTasks();
 }
 
-// DRAG
 function dragStart(e, id) {
-    e.dataTransfer.setData("id", id);
+  e.dataTransfer.setData("id", id);
 }
 
 function allowDrop(e) {
-    e.preventDefault();
+  e.preventDefault();
 }
 
 function drop(e, status) {
-    const id = e.dataTransfer.getData("id");
-
-    tasks = tasks.map(t => {
-        if (t.id == id) t.status = status;
-        return t;
-    });
-
-    saveTasks();
-    renderTasks();
+  const id = e.dataTransfer.getData("id");
+  tasks = tasks.map(t => {
+    if (t.id == id) t.status = status;
+    return t;
+  });
+  saveTasks();
+  renderTasks();
 }
 
-// RENDER
 function renderTasks() {
-    document.querySelectorAll(".column").forEach(col => col.innerHTML = `<h2>${col.id.toUpperCase()}</h2>`);
+  document.querySelectorAll(".column").forEach(col => col.innerHTML = `<h2>${col.id.toUpperCase()}</h2>`);
 
-    const search = document.getElementById("search").value.toLowerCase();
+  const search = document.getElementById("search").value.toLowerCase();
 
-    tasks
-        .filter(t => t.text.toLowerCase().includes(search))
-        .forEach(task => {
-            const div = document.createElement("div");
-            div.className = `task ${task.priority}`;
-            div.draggable = true;
+  tasks
+    .filter(t => t.text.toLowerCase().includes(search))
+    .forEach(task => {
+      const div = document.createElement("div");
+      div.className = `task ${task.priority}`;
+      div.draggable = true;
 
-            div.innerHTML = `
-                <strong>${task.text}</strong><br>
-                <small>${task.date || ""}</small><br>
-                <button onclick="deleteTask(${task.id})">Delete</button>
-            `;
+      div.innerHTML = `
+        <strong>${task.text}</strong><br>
+        <small>${task.date || ""}</small>
+        <button onclick="deleteTask(${task.id})"><i class="fas fa-trash"></i></button>
+      `;
 
-            div.ondragstart = (e) => dragStart(e, task.id);
-
-            const column = document.getElementById(task.status);
-            column.appendChild(div);
-        });
+      div.ondragstart = (e) => dragStart(e, task.id);
+      const column = document.getElementById(task.status);
+      column.appendChild(div);
+    });
 }
 
-// SETUP DROP ZONES
+// Setup drop zones
 document.querySelectorAll(".column").forEach(col => {
-    col.ondragover = allowDrop;
-    col.ondrop = (e) => drop(e, col.id);
+  col.ondragover = allowDrop;
+  col.ondrop = (e) => drop(e, col.id);
 });
 
-// THEME
+// Theme toggle
 document.getElementById("themeToggle").onclick = () => {
-    document.body.classList.toggle("light");
+  document.body.classList.toggle("light");
 };
 
-// INIT
+// Initialize
 renderTasks();
