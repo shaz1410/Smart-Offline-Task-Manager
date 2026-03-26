@@ -1,0 +1,68 @@
+:root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --text: #e6edf3;
+    --accent: #58a6ff;
+}
+
+body.light {
+    --bg: #f5f5f5;
+    --card: #ffffff;
+    --text: #111;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* HEADER */
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background: var(--card);
+}
+
+/* INPUT */
+.input-section {
+    display: flex;
+    gap: 10px;
+    padding: 1rem;
+}
+
+input, select, button {
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+}
+
+/* BOARD */
+.board {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.column {
+    flex: 1;
+    background: var(--card);
+    padding: 1rem;
+    border-radius: 10px;
+    min-height: 300px;
+}
+
+/* TASK */
+.task {
+    background: #21262d;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    cursor: grab;
+}
+
+.task.high { border-left: 5px solid red; }
+.task.medium { border-left: 5px solid orange; }
+.task.low { border-left: 5px solid green; }

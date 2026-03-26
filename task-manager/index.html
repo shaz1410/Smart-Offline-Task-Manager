@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Task Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Task Manager</h1>
+    <button id="themeToggle">🌙</button>
+</header>
+
+<section class="input-section">
+    <input type="text" id="taskInput" placeholder="Enter task...">
+    <input type="date" id="taskDate">
+    <select id="priority">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+    </select>
+    <button onclick="addTask()">Add</button>
+</section>
+
+<section class="filter-section">
+    <input type="text" id="search" placeholder="Search tasks..." oninput="renderTasks()">
+</section>
+
+<section class="board">
+    <div class="column" id="todo">
+        <h2>To Do</h2>
+    </div>
+    <div class="column" id="doing">
+        <h2>Doing</h2>
+    </div>
+    <div class="column" id="done">
+        <h2>Done</h2>
+    </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
